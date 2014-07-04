@@ -24,29 +24,33 @@ class Takeleaves extends CI_Controller
      */
     function save($take_id=-1)
     {
-        $take_leave = array(
-            'approved_by'=>$this->input->post('approved_by'),
-            'start_date'=>$this->input->post('start_date'),
-            'end_date'=>$this->input->post('end_date'),
-            'content'=>$this->input->post('content'),            
-        );
-        if($this->Takeleave->save($take_leave,$take_id)){
-        	 //New Takeleave
-            if($take_id==-1)
-            {
-                echo json_encode(array('success'=>true,'message'=> 'Employee has been added successfully '.
-                'take_id'=>$user_data['take_id'],'actions'=>'add'));
-            }
-            else //previous Take leave
-            {
-                echo json_encode(array('success'=>true,'message'=>'Employee has been updated successfully '.
-                'take_id'=>$take_id,'actions'=>'update'));
-            }
-        }
-        else//failure
-        {   
-            echo json_encode(array('success'=>false,'message'=>'Employee cannot added/updated with successfully '.'user_id'=>-1));
-        }
+        // $take_leave = array(
+        //     'approved_by'=>$this->input->post('approved_by'),
+        //     'start_date'=>$this->input->post('start_date'),
+        //     'end_date'=>$this->input->post('end_date'),
+        //     'content'=>$this->input->post('content'),            
+        // );
+        // if($this->Takeleave->save($take_leave,$take_id)){
+        // 	 //New Takeleave
+        //     if($take_id==-1)
+        //     {
+        //         echo json_encode(array('success'=>true,'message'=> 'Employee has been added successfully '.
+        //         'take_id'=>$take_leave['take_id'],'actions'=>'add'));
+                
+        //         echo json_encode(array('success'=>true,'message'=> 'Employee has been added successfully '.
+        //         $user_profile_data['first_name'].' '.$user_profile_data['last_name'],'user_id'=>$user_data['user_id'],
+        //         'actions'=>'add'));
+        //     }
+        //     else //previous Take leave
+        //     {
+        //         echo json_encode(array('success'=>true,'message'=>'Employee has been updated successfully '.
+        //         'take_id'=>$take_id,'actions'=>'update'));
+        //     }
+        // }
+        // else//failure
+        // {   
+        //     echo json_encode(array('success'=>false,'message'=>'Employee cannot added/updated with successfully '.'user_id'=>-1));
+        // }
     }
 	public function edit($take_id) {
 		$datas['title'] = "Edit User";

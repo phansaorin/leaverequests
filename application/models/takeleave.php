@@ -72,5 +72,6 @@ class Takeleave extends CI_Model
 			}
 			
 		}
+	}
 }
 ?>

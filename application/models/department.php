@@ -20,10 +20,10 @@ class Department extends CI_Model
 	/*
 	Gets information about a particular employee
 	*/
-	function get_info($user_id)
+	function get_info($dep_id)
 	{
 		$query = $this->db
-				->where("department_id", $user_id)
+				->where("department_id", $dep_id)
 				->get("departments");
 		
 		if($query->num_rows()==1)
