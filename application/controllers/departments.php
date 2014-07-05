@@ -10,61 +10,86 @@ class Departments extends CI_Controller
 
 	public function index()
 	{
-		$datas['title'] = "Department Management";
+		$datas['title'] = "Users Management";
 		$datas['controller_name'] = strtolower(get_class());
         $datas['records'] = $this->Department->get_all();
 		$this->load->view("departments/index", $datas);
 	}
 
-	public function edit($dep_id) {
+	public function edit($department_id) {
 		$datas['title'] = "Edit User";
 		$datas['controller_name'] = strtolower(get_class());
-        $datas['record_info'] = $this->Departments->get_info($dep_id);
+        $datas['record_info'] = $this->Department->get_info($department_id);
 
-		$this->load->view("staffs/form", $datas);
-	}
-
-	public function create() {
-		$datas['title'] = "New Departments";
-		$datas['controller_name'] = strtolower(get_class());
-		// start to insert
-		$departments = array('' => '-- Select --');
-        foreach($this->Department->get_all()->result_array() as $row)
-        {
-            $departments[$row['department_id']] = $row['department_name'];
-        }
-        $datas['department']=$departments;
-        // the end of insert
 		$this->load->view("departments/form", $datas);
 	}
-    public function save($dep_id){
-    	$department = array(
-    				'department_name' => $this->input->post('dept_name'),
-    				'description' => $this->input->post('dept_description')
-    		);
-    	if($this->Department->save($department,$dep_id)){
-    		if($dep_id == -1)
-            {
-                echo json_encode(array('success'=>true,'message'=> 'Employee has been added successfully '.
-                $department['department_name'].' '.$department['description'],'department_id'=>$dep_id['department_id'],
-                'actions'=>'add'));
-            }
-            else //previous employee
-            {
-               echo json_encode(array('success'=>true,'message'=> 'Employee has been added successfully '.
-                $department['department_name'].' '.$department['description'],'department_id'=>$dep_id['department_id'],
-                'actions'=>'Update'));
-            }
-    	}
 
-    }
+	public function create($department_id = -1) {
+		$datas['title'] = "New Departments";
+		$datas['controller_name'] = strtolower(get_class());
+		$datas['record_info'] = $this->Department->get_info($department_id);
+
+		$this->load->view("departments/form", $datas);
+	}
+
+	public function view() {
+		$datas['title'] = "View Details";
+		$datas['controller_name'] = strtolower(get_class());
+		$this->load->view("departments/view", $datas);
+	}
+
 	/*
-    This delete employee from the users table
+    This delete department from the departments table
     */
-    function delete($user_id) {
-        if ($this->Employee->delete($user_id)) {
+    function delete($department_id) {
+        if ($this->Department->delete($department_id)) {
             echo json_encode(array('success' => true, 'message' => 'Delete successfully ' .
-                count($user_id) . ' employee(s)'));
+                count($department_id) . ' department(s)'));
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Deleting was error, delete was failed'));
+        }
+    }
+
+    /*
+      Inserts/updates an department
+     */
+    function save($department_id=-1)
+    {
+        $department_info = array(
+            'department_name'=>$this->input->post('dept_name'),
+            'description'=>$this->input->post('dept_description'),
+        );
+
+        if($this->Department->save($department_info, $department_id))
+        {
+            //New department
+            if($department_id==-1)
+            {
+                echo json_encode(array('success'=>true,'message'=> 'Department has been added successfully '.
+                $department_info['department_name'], 'actions'=>'add'));
+            }
+            else //previous department
+            {
+                echo json_encode(array('success'=>true,'message'=>'Department has been updated successfully '.
+                $department_info['department_name'], 'actions'=>'update'));
+            }
+        }
+        else//failure
+        {   
+            echo json_encode(array('success'=>false,'message'=>'Department cannot added/updated with successfully '.
+            $department_info['department_name'],'id'=>-1));
+        }
+    }
+
+    /*
+      This deletes department from the departments table
+     */
+    function remove() {
+        $departments_to_delete = $this->input->post('checkedID');
+
+        if ($this->Department->delete_list($departments_to_delete)) {
+            echo json_encode(array('success' => true, 'message' => 'Delete successfully ' .
+                count($departments_to_delete) . ' department(s)'));
         } else {
             echo json_encode(array('success' => false, 'message' => 'Deleting was error, delete was failed'));
         }

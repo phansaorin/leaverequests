@@ -10,7 +10,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    DataTables Advanced Tables
+                    <?php echo ucwords($title)?>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -33,14 +33,7 @@
                                         $recordId++;
                                     ?>
                                     <tr class="<?php echo $recordId % 2 ? 'even' : 'odd' ?>">
-                                    <?php 
-                                    $checkbox = array(
-                                        'name' => 'checkedID',
-                                        'value' => $row['department_id'],
-                                        'class' => 'checkedID'
-                                    );
-                                    ?>
-                                        <td><?php echo form_checkbox($checkbox); ?></td>
+                                        <td><?php echo form_checkbox("checkedID", $row['department_id']); ?></td>
                                         <td><?php echo $recordId; ?></td>
                                         <td><?php echo $row['department_name']; ?></td>
                                         <td><?php echo $row['description']; ?></td>
